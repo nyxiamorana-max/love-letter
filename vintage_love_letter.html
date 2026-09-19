@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Letter</title>
+
+<!-- Vintage-style fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Great+Vibes&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+:root{
+  --ink:#4b3028;
+  --muted:#80665b;
+  --paper:#f5e8d0;
+  --paper2:#ead5b5;
+  --brown:#70473b;
+  --line:#b99570;
+  --shadow:rgba(48,27,19,.22);
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  min-height:100vh;
+  padding:22px 12px 40px;
+  color:var(--ink);
+  font-family:"Cormorant Garamond",Georgia,serif;
+  background:
+    radial-gradient(circle at 12% 18%,rgba(255,244,214,.65),transparent 25%),
+    radial-gradient(circle at 86% 72%,rgba(255,239,201,.42),transparent 27%),
+    linear-gradient(135deg,#6e493b,#3d281f 45%,#75503d);
+  background-attachment:fixed;
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.18;
+  background-image:
+    radial-gradient(#2f1d16 0.6px,transparent .7px),
+    radial-gradient(#fff5dd .5px,transparent .7px);
+  background-size:8px 8px,11px 11px;
+  z-index:0;
+}
+
+.container{
+  width:100%;
+  max-width:900px;
+  margin:auto;
+  position:relative;
+  z-index:1;
+}
+
+.card{
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(rgba(250,239,215,.94),rgba(238,218,184,.94)),
+    #f5e8d0;
+  border:1px solid rgba(91,58,43,.35);
+  box-shadow:0 28px 70px var(--shadow);
+  padding:28px;
+}
+
+.card:before{
+  content:"";
+  position:absolute;
+  inset:10px;
+  border:1px solid rgba(112,71,59,.25);
+  pointer-events:none;
+}
+
+.top{
+  position:relative;
+  text-align:center;
+  padding:10px 15px 26px;
+}
+
+.brand{
+  font-family:"Great Vibes",cursive;
+  font-size:48px;
+  line-height:1;
+  color:#5a392f;
+  margin:4px 0 7px;
+}
+
+.brand-heart{font-family:"Cormorant Garamond",serif;font-size:25px}
+
+.sub{
+  font-family:"Playfair Display",serif;
+  font-size:12px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:#80665b;
+}
+
+.ornament{
+  margin-top:13px;
+  font-size:21px;
+  letter-spacing:8px;
+  color:#8d6756;
+}
+
+.section{
+  position:relative;
+  margin:0 auto 22px;
+  max-width:700px;
+}
+
+.section-title{
+  font-family:"Playfair Display",serif;
+  text-align:center;
+  font-size:17px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  margin:5px 0 17px;
+  color:#603e34;
+}
+
+.section-title span{
+  display:block;
+  font-family:"Great Vibes",cursive;
+  text-transform:none;
+  letter-spacing:0;
+  font-size:27px;
+  margin-top:-2px;
+}
+
+label{
+  display:block;
+  font-family:"Playfair Display",serif;
+  font-size:11px;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:#684a3f;
+  margin:15px 0 6px;
+}
+
+input,textarea{
+  width:100%;
+  border:0;
+  border-bottom:1px solid #b99570;
+  border-radius:0;
+  padding:10px 4px;
+  outline:none;
+  background:rgba(255,249,232,.35);
+  color:#4b3028;
+  font:18px "Cormorant Garamond",serif;
+}
+
+textarea{
+  min-height:145px;
+  resize:vertical;
+  line-height:1.65;
+  border:1px solid rgba(153,116,83,.4);
+  padding:12px;
+  background:rgba(255,249,232,.42);
+}
+
+input:focus,textarea:focus{
+  border-color:#70473b;
+  box-shadow:0 3px 0 rgba(112,71,59,.08);
+}
+
+.choices{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.choice{
+  appearance:none;
+  border:1px solid rgba(111,73,57,.22);
+  background:rgba(255,248,230,.55);
+  padding:8px;
+  cursor:pointer;
+  color:#5b4037;
+  transition:.2s ease;
+  font-family:"Cormorant Garamond",serif;
+}
+
+.choice:hover{transform:translateY(-2px)}
+
+.choice.active{
+  border-color:#70473b;
+  box-shadow:0 5px 16px rgba(76,42,30,.16);
+  background:rgba(255,245,218,.88);
+}
+
+.swatch{
+  height:66px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+  border:1px solid rgba(92,58,43,.16);
+  margin-bottom:7px;
+}
+
+.choice-name{
+  font-size:14px;
+  font-weight:600;
+}
+
+.choice-small{
+  font-size:11px;
+  color:#80665b;
+}
+
+.vintage{background:linear-gradient(135deg,#f2dfc0,#c99e74)}
+.rose{background:linear-gradient(135deg,#f0d5c5,#c99484)}
+.cream{background:linear-gradient(135deg,#fff4d9,#d9bd89)}
+.night{background:linear-gradient(135deg,#493d40,#1f2529);color:#f5e8d0}
+
+.flower-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:9px;
+}
+
+.flower{
+  min-height:75px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(111,73,57,.2);
+  background:rgba(255,248,230,.5);
+  cursor:pointer;
+  color:#65463b;
+  font-family:"Cormorant Garamond",serif;
+  transition:.2s;
+}
+
+.flower:hover{transform:translateY(-2px)}
+.flower.active{
+  border-color:#70473b;
+  box-shadow:0 5px 14px rgba(76,42,30,.14);
+}
+
+.flower-symbol{font-size:30px;line-height:1;margin-bottom:4px}
+.flower-name{font-size:12px}
+
+.main{
+  display:block;
+  margin:24px auto 4px;
+  border:1px solid #5b392f;
+  background:#70473b;
+  color:#fff4df;
+  padding:13px 30px;
+  min-width:220px;
+  cursor:pointer;
+  font:15px "Playfair Display",serif;
+  letter-spacing:1px;
+  box-shadow:0 7px 15px rgba(69,39,29,.18);
+  transition:.2s;
+}
+
+.main:hover{transform:translateY(-2px);background:#5f3c32}
+
+.preview{
+  display:none;
+  margin:35px auto 0;
+  max-width:700px;
+  animation:appear .6s ease;
+}
+
+@keyframes appear{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:none}
+}
+
+.preview-title{
+  text-align:center;
+  font-family:"Great Vibes",cursive;
+  font-size:38px;
+  font-weight:400;
+  margin:0 0 13px;
+  color:#5d3b31;
+}
+
+.letter{
+  position:relative;
+  min-height:390px;
+  padding:58px 50px 52px;
+  overflow:hidden;
+  border:1px solid rgba(91,58,43,.35);
+  box-shadow:0 18px 40px rgba(55,30,22,.18);
+}
+
+.letter:before{
+  content:"";
+  position:absolute;
+  inset:13px;
+  border:1px solid rgba(112,71,59,.35);
+  pointer-events:none;
+}
+
+.letter:after{
+  content:"";
+  position:absolute;
+  inset:22px;
+  border:1px dashed rgba(112,71,59,.2);
+  pointer-events:none;
+}
+
+.letter.vintage{
+  background:
+    radial-gradient(circle at 20% 20%,rgba(255,255,255,.5),transparent 24%),
+    radial-gradient(circle at 80% 80%,rgba(185,140,91,.16),transparent 28%),
+    #f3dfbf;
+}
+
+.letter.rose{
+  background:
+    radial-gradient(circle at 15% 85%,rgba(180,105,92,.13),transparent 25%),
+    #f1ddd2;
+}
+
+.letter.cream{
+  background:
+    radial-gradient(circle at 70% 20%,rgba(255,255,255,.55),transparent 25%),
+    #f7ebd0;
+}
+
+.letter.night{
+  background:
+    radial-gradient(circle at 30% 20%,rgba(255,255,255,.08),transparent 25%),
+    #302c2e;
+  border-color:#8d776b;
+  color:#f6e8cf;
+}
+
+.letter.night:before{border-color:rgba(245,230,204,.35)}
+.letter.night:after{border-color:rgba(245,230,204,.18)}
+
+.to,.message,.from{position:relative;z-index:2}
+
+.to{
+  font-size:21px;
+  margin-bottom:25px;
+}
+
+.message{
+  white-space:pre-wrap;
+  line-height:1.9;
+  font-size:20px;
+  min-height:120px;
+}
+
+.from{
+  text-align:right;
+  margin-top:28px;
+  font-size:19px;
+}
+
+.from span{
+  font-family:"Great Vibes",cursive;
+  font-size:31px;
+}
+
+.wax{
+  position:absolute;
+  z-index:4;
+  top:21px;
+  left:50%;
+  transform:translateX(-50%);
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:#743d34;
+  color:#f2d9b5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:21px;
+  box-shadow:0 4px 10px rgba(50,20,15,.2);
+}
+
+.corner{
+  position:absolute;
+  z-index:3;
+  font-size:55px;
+  line-height:1;
+  opacity:.82;
+}
+
+.c1{top:13px;left:14px;transform:rotate(-15deg)}
+.c2{top:12px;right:13px;transform:rotate(18deg)}
+.c3{bottom:10px;left:13px;transform:rotate(12deg)}
+.c4{bottom:11px;right:13px;transform:rotate(-16deg)}
+
+.flower-rose{color:#9d5c54}
+.flower-daisy{color:#8b6c4b}
+.flower-lavender{color:#786181}
+.flower-baby{color:#b18b72}
+.flower-wild{color:#76574b}
+
+.actions{
+  display:flex;
+  gap:9px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:17px;
+}
+
+.action{
+  border:1px solid #8b6656;
+  background:rgba(250,237,211,.8);
+  color:#5e4036;
+  padding:10px 18px;
+  cursor:pointer;
+  font:13px "Playfair Display",serif;
+}
+
+.action:hover{background:#f5dfba}
+
+.night-action{background:#40383a;color:#f5e8d0;border-color:#8d776b}
+
+.link{
+  display:none;
+  max-width:700px;
+  margin:15px auto 0;
+}
+
+.link input{
+  width:100%;
+  border:1px solid #b99570;
+  background:rgba(255,248,230,.65);
+  padding:10px;
+  font:11px Arial,sans-serif;
+}
+
+.footer{
+  text-align:center;
+  margin:30px auto 0;
+  padding-top:19px;
+  border-top:1px solid rgba(112,71,59,.25);
+  font-family:"Playfair Display",serif;
+  font-size:11px;
+  letter-spacing:2px;
+  color:#80665b;
+}
+
+.hidden{display:none!important}
+
+@media(max-width:650px){
+  body{padding:8px 5px 25px}
+  .card{padding:20px 15px}
+  .card:before{inset:7px}
+  .brand{font-size:42px}
+  .choices{grid-template-columns:repeat(2,1fr)}
+  .flower-grid{grid-template-columns:repeat(3,1fr)}
+  .letter{padding:58px 29px 48px;min-height:380px}
+  .message{font-size:18px}
+  .corner{font-size:43px}
+}
+
+@media(max-width:390px){
+  .flower-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<div class="card" id="app">
+
+  <div class="top">
+    <div class="brand">a little letter <span class="brand-heart">♡</span></div>
+    <div class="sub">written for someone special</div>
+    <div class="ornament">— ❦ — ❀ — ❦ —</div>
+  </div>
+
+  <div id="creator">
+
+    <div class="section">
+      <div class="section-title">Write a Letter <span>to someone special</span></div>
+
+      <label>Your Name</label>
+      <input id="sender" placeholder="e.g. Jane" autocomplete="off">
+
+      <label>Recipient's Name</label>
+      <input id="recipient" placeholder="e.g. Gio" autocomplete="off">
+
+      <label>Your Message</label>
+      <textarea id="message" placeholder="write something from your heart..."></textarea>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Choose a Paper</div>
+
+      <div class="choices">
+        <button type="button" class="choice active" data-d="vintage" onclick="pickDesign('vintage')">
+          <div class="swatch vintage">❦</div>
+          <div class="choice-name">Old Paper</div>
+          <div class="choice-small">warm & timeless</div>
+        </button>
+
+        <button type="button" class="choice" data-d="rose" onclick="pickDesign('rose')">
+          <div class="swatch rose">♡</div>
+          <div class="choice-name">Rose Blush</div>
+          <div class="choice-small">soft & romantic</div>
+        </button>
+
+        <button type="button" class="choice" data-d="cream" onclick="pickDesign('cream')">
+          <div class="swatch cream">✦</div>
+          <div class="choice-name">Antique Cream</div>
+          <div class="choice-small">simple & elegant</div>
+        </button>
+
+        <button type="button" class="choice" data-d="night" onclick="pickDesign('night')">
+          <div class="swatch night">☾</div>
+          <div class="choice-name">Midnight</div>
+          <div class="choice-small">quiet & dreamy</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Add a Flower</div>
+
+      <div class="flower-grid">
+        <button type="button" class="flower active" data-f="rose" onclick="pickFlower('rose')">
+          <div class="flower-symbol flower-rose">✿</div>
+          <div class="flower-name">Rose</div>
+        </button>
+
+        <button type="button" class="flower" data-f="daisy" onclick="pickFlower('daisy')">
+          <div class="flower-symbol flower-daisy">✾</div>
+          <div class="flower-name">Daisy</div>
+        </button>
+
+        <button type="button" class="flower" data-f="lavender" onclick="pickFlower('lavender')">
+          <div class="flower-symbol flower-lavender">❁</div>
+          <div class="flower-name">Lavender</div>
+        </button>
+
+        <button type="button" class="flower" data-f="baby" onclick="pickFlower('baby')">
+          <div class="flower-symbol flower-baby">❀</div>
+          <div class="flower-name">Baby's Breath</div>
+        </button>
+
+        <button type="button" class="flower" data-f="wild" onclick="pickFlower('wild')">
+          <div class="flower-symbol flower-wild">❦</div>
+          <div class="flower-name">Wildflower</div>
+        </button>
+      </div>
+    </div>
+
+    <button class="main" onclick="previewLetter()">Create My Letter &nbsp;→</button>
+  </div>
+
+  <div class="preview" id="preview">
+    <div class="preview-title">your letter</div>
+
+    <div class="letter vintage" id="letter">
+      <div class="wax">♡</div>
+      <div class="corner c1" id="c1">✿</div>
+      <div class="corner c2" id="c2">✿</div>
+      <div class="corner c3" id="c3">✿</div>
+      <div class="corner c4" id="c4">✿</div>
+
+      <div class="to">Dear <span id="pr"></span>,</div>
+      <div class="message" id="pm"></div>
+      <div class="from">xoxo,<br><span id="ps"></span></div>
+    </div>
+
+    <div class="actions">
+      <button class="action" onclick="makeLink()">♡ Generate Link</button>
+      <button class="action" onclick="copyLink()">⌘ Copy Link</button>
+      <button class="action" onclick="shareLink()">↗ Share</button>
+    </div>
+  </div>
+
+  <div class="link" id="link">
+    <input id="url" readonly>
+  </div>
+
+  <div class="footer">
+    A LETTER TODAY &nbsp; ♥ &nbsp; A MEMORY FOREVER
+  </div>
+
+</div>
+</div>
+
+<script>
+let design = "vintage";
+let flower = "rose";
+
+const flowerSymbols = {
+  rose:["✿","✿","✿","✿"],
+  daisy:["✾","✾","✾","✾"],
+  lavender:["❁","❁","❁","❁"],
+  baby:["❀","❀","❀","❀"],
+  wild:["❦","❦","❦","❦"]
+};
+
+const flowerColors = {
+  rose:"flower-rose",
+  daisy:"flower-daisy",
+  lavender:"flower-lavender",
+  baby:"flower-baby",
+  wild:"flower-wild"
+};
+
+const bg = {
+  vintage:"#4b3028",
+  rose:"#5b4037",
+  cream:"#5a4638",
+  night:"#19191b"
+};
+
+function pickDesign(d){
+  design=d;
+  document.querySelectorAll(".choice").forEach(x=>{
+    x.classList.toggle("active",x.dataset.d===d);
+  });
+}
+
+function pickFlower(f){
+  flower=f;
+  document.querySelectorAll(".flower").forEach(x=>{
+    x.classList.toggle("active",x.dataset.f===f);
+  });
+  setFlowerCorners();
+}
+
+function setFlowerCorners(){
+  const symbols=flowerSymbols[flower]||flowerSymbols.rose;
+  ["c1","c2","c3","c4"].forEach((id,i)=>{
+    const el=document.getElementById(id);
+    if(el){
+      el.textContent=symbols[i];
+      el.className="corner c"+(i+1)+" "+flowerColors[flower];
+    }
+  });
+}
+
+function previewLetter(){
+  const s=document.getElementById("sender").value.trim();
+  const r=document.getElementById("recipient").value.trim();
+  const m=document.getElementById("message").value.trim();
+
+  if(!s || !r || !m){
+    alert("Please fill in all the fields first.");
+    return;
+  }
+
+  document.getElementById("pr").textContent=r;
+  document.getElementById("ps").textContent=s;
+  document.getElementById("pm").textContent=m;
+
+  const letter=document.getElementById("letter");
+  letter.className="letter "+design;
+
+  setFlowerCorners();
+
+  document.getElementById("preview").style.display="block";
+  document.getElementById("link").style.display="none";
+
+  window.scrollTo({
+    top:document.getElementById("preview").offsetTop-20,
+    behavior:"smooth"
+  });
+}
+
+function enc(obj){
+  const bytes=new TextEncoder().encode(JSON.stringify(obj));
+  let binary="";
+  bytes.forEach(b=>binary+=String.fromCharCode(b));
+  return btoa(binary)
+    .replace(/\+/g,"-")
+    .replace(/\//g,"_")
+    .replace(/=+$/,"");
+}
+
+function dec(str){
+  str=str.replace(/-/g,"+").replace(/_/g,"/");
+  while(str.length%4) str+="=";
+  const binary=atob(str);
+  const bytes=new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+function makeLink(){
+  const s=document.getElementById("sender").value.trim();
+  const r=document.getElementById("recipient").value.trim();
+  const m=document.getElementById("message").value.trim();
+
+  if(!s || !r || !m){
+    alert("Please create your letter first.");
+    return;
+  }
+
+  const data={
+    sender:s,
+    recipient:r,
+    message:m,
+    design:design,
+    flower:flower
+  };
+
+  const link=location.origin+location.pathname+"?letter="+enc(data);
+  document.getElementById("url").value=link;
+  document.getElementById("link").style.display="block";
+
+  window.scrollTo({
+    top:document.getElementById("link").offsetTop-20,
+    behavior:"smooth"
+  });
+}
+
+function copyLink(){
+  const value=document.getElementById("url").value;
+  if(!value){
+    makeLink();
+    return;
+  }
+
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(value).then(()=>{
+      alert("Link copied!");
+    });
+  }else{
+    const input=document.getElementById("url");
+    input.select();
+    document.execCommand("copy");
+    alert("Link copied!");
+  }
+}
+
+function shareLink(){
+  const value=document.getElementById("url").value;
+  if(!value){
+    makeLink();
+    return;
+  }
+
+  if(navigator.share){
+    navigator.share({
+      title:"A Little Letter",
+      text:"I made a little letter for you ♡",
+      url:value
+    });
+  }else{
+    copyLink();
+  }
+}
+
+function esc(s){
+  return String(s)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function showShared(data){
+  const d=data.design||"vintage";
+  const f=data.flower||"rose";
+  const symbols=flowerSymbols[f]||flowerSymbols.rose;
+  const color=flowerColors[f]||flowerColors.rose;
+
+  document.body.style.background=
+    d==="night"
+    ? "linear-gradient(135deg,#201c1d,#0e0e0f)"
+    : "linear-gradient(135deg,#6e493b,#3d281f 45%,#75503d)";
+
+  const app=document.getElementById("app");
+
+  app.innerHTML=`
+    <div class="top">
+      <div class="brand">a little letter <span class="brand-heart">♡</span></div>
+      <div class="sub">someone made this just for you</div>
+      <div class="ornament">— ❦ — ❀ — ❦ —</div>
+    </div>
+
+    <div class="preview" style="display:block;max-width:700px;margin-top:0">
+      <div class="letter ${esc(d)}" id="sharedLetter">
+        <div class="wax">♡</div>
+
+        <div class="corner c1 ${color}">${symbols[0]}</div>
+        <div class="corner c2 ${color}">${symbols[1]}</div>
+        <div class="corner c3 ${color}">${symbols[2]}</div>
+        <div class="corner c4 ${color}">${symbols[3]}</div>
+
+        <div class="to">Dear ${esc(data.recipient)},</div>
+        <div class="message">${esc(data.message)}</div>
+        <div class="from">xoxo,<br><span>${esc(data.sender)}</span></div>
+      </div>
+
+      <div class="actions">
+        <button class="action ${d==="night"?"night-action":""}" onclick="copyCurrentLink()">♡ Copy This Link</button>
+        <button class="action ${d==="night"?"night-action":""}" onclick="location.href=location.pathname">✦ Create Your Own</button>
+      </div>
+    </div>
+
+    <div class="footer">A LETTER TODAY &nbsp; ♥ &nbsp; A MEMORY FOREVER</div>
+  `;
+}
+
+function copyCurrentLink(){
+  const value=location.href;
+
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(value).then(()=>alert("Link copied!"));
+  }else{
+    const temp=document.createElement("input");
+    temp.value=value;
+    document.body.appendChild(temp);
+    temp.select();
+    document.execCommand("copy");
+    temp.remove();
+    alert("Link copied!");
+  }
+}
+
+window.addEventListener("load",()=>{
+  const q=new URLSearchParams(location.search).get("letter");
+
+  if(q){
+    try{
+      showShared(dec(q));
+    }catch(e){
+      console.log("Invalid letter link",e);
+    }
+  }else{
+    setFlowerCorners();
+  }
+});
+</script>
+</body>
+</html>
