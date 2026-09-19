@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Little Letter</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:20px;font-family:Georgia,serif;display:flex;justify-content:center;align-items:center;background:#eef6ff;color:#4b555d;transition:.4s}.container{width:100%;max-width:440px}.card{background:rgba(255,255,255,.95);border-radius:28px;padding:26px;box-shadow:0 20px 60px #45657a20}h1{text-align:center;color:#557fa3;margin:0 0 6px}.sub{text-align:center;color:#929ba2;font:13px Arial,sans-serif;margin-bottom:24px}label,.design-title{display:block;font:13px Arial,sans-serif;color:#59636b;margin:15px 0 7px}input,textarea{width:100%;border:1px solid #dce8f1;border-radius:14px;padding:13px 14px;font:15px Georgia,serif;outline:none;background:#fbfdff;color:#3e474d}textarea{min-height:145px;resize:vertical;line-height:1.6}.designs{display:grid;grid-template-columns:1fr 1fr;gap:10px}.design{border:1.5px solid transparent;border-radius:16px;padding:9px;background:#f8fbfd;cursor:pointer;text-align:left;color:#59636b;font-family:Georgia,serif}.design.active{border-color:#76a9ca;box-shadow:0 5px 15px #527fa320}.swatch{height:52px;border-radius:11px;margin-bottom:7px}.name{font-size:13px}.small{font:10px Arial,sans-serif;color:#929ba2;margin-top:2px}button.main,button.action{width:100%;border:0;border-radius:15px;padding:14px;margin-top:18px;font:15px Georgia,serif;cursor:pointer;color:white;background:#6d9fc5}button:active{transform:scale(.985)}.preview{display:none;margin-top:25px}.preview h2{text-align:center;font-size:19px;font-weight:normal;margin:0 0 14px}.letter{position:relative;min-height:330px;padding:35px 28px;border-radius:22px;overflow:hidden}.letter:before{content:"";position:absolute;inset:10px;border:1px solid #ffffff99;border-radius:17px}.decor{position:absolute;font-size:26px;opacity:.75}.d1{top:13px;left:15px}.d2{top:13px;right:15px}.d3{bottom:13px;left:15px}.d4{bottom:13px;right:15px}.to,.message,.from{position:relative}.to{font-size:14px;color:#747e85}.message{white-space:pre-wrap;line-height:1.85;margin-top:25px;font-size:15px;color:#414a51}.from{text-align:right;margin-top:30px;color:#68737b;font-size:14px}.link{display:none;margin-top:18px}.link input{font:11px Arial,sans-serif;background:#f4f6f7}.blue{background:linear-gradient(145deg,#eef8ff,#d8edff);border:1px solid #c5e3f5}.pink{background:linear-gradient(145deg,#fff5f8,#ffe3ed);border:1px solid #f3cddc}.pink .message,.pink .from{color:#765664}.lavender{background:linear-gradient(145deg,#faf7ff,#e9e0fa);border:1px solid #ddd0f0}.lavender .message,.lavender .from{color:#635777}.cream{background:linear-gradient(145deg,#fffaf0,#f8ebd2);border:1px solid #ead8b6}.cream .message,.cream .from{color:#675b4d}.night{background:linear-gradient(145deg,#17243b,#2f4262);border:1px solid #435979}.night .to,.night .message,.night .from{color:#edf4ff}.shared .preview{display:block;margin-top:0}.shared .letter{min-height:380px}
+</style>
+</head>
+<body><div class="container"><div class="card" id="app">
+<h1>Little Letter</h1><div class="sub">Create something special for someone.</div>
+<div id="creator">
+<label>Your Name</label><input id="sender" placeholder="Your name">
+<label>Recipient's Name</label><input id="recipient" placeholder="Their name">
+<label>Your Letter</label><textarea id="message" placeholder="Write something from your heart..."></textarea>
+<div class="design-title">Choose a Design</div>
+<div class="designs">
+<button class="design active" data-d="blue" onclick="pick('blue')"><div class="swatch" style="background:linear-gradient(135deg,#dff2ff,#8bc8ec)"></div><div class="name">Blue Romance</div><div class="small">soft & dreamy</div></button>
+<button class="design" data-d="pink" onclick="pick('pink')"><div class="swatch" style="background:linear-gradient(135deg,#ffeaf2,#f3a9c2)"></div><div class="name">Soft Blossom</div><div class="small">sweet & gentle</div></button>
+<button class="design" data-d="lavender" onclick="pick('lavender')"><div class="swatch" style="background:linear-gradient(135deg,#f0e9ff,#b9a0df)"></div><div class="name">Lavender Dream</div><div class="small">calm & elegant</div></button>
+<button class="design" data-d="cream" onclick="pick('cream')"><div class="swatch" style="background:linear-gradient(135deg,#fff5dc,#d9bd83)"></div><div class="name">Warm Letter</div><div class="small">cozy & timeless</div></button>
+<button class="design" data-d="night" onclick="pick('night')"><div class="swatch" style="background:linear-gradient(135deg,#182640,#536b94)"></div><div class="name">Midnight</div><div class="small">quiet & romantic</div></button>
+</div><button class="main" onclick="previewLetter()">Preview My Letter</button></div>
+<div class="preview" id="preview"><h2>Your Letter</h2><div class="letter blue" id="letter"><span class="decor d1" id="d1">✿</span><span class="decor d2" id="d2">❀</span><span class="decor d3" id="d3">❁</span><span class="decor d4" id="d4">✿</span><div class="to">Dear <span id="pr"></span>,</div><div class="message" id="pm"></div><div class="from">— <span id="ps"></span></div></div><button class="action" onclick="makeLink()">Generate Shareable Link</button></div>
+<div class="link" id="link"><input id="url" readonly><button class="action" onclick="copyLink()">Copy Link</button><button class="action" onclick="shareLink()">Share</button></div>
+</div></div>
+<script>
+let design='blue';const deco={blue:['✿','❀','❁','✿'],pink:['♡','❀','♡','❁'],lavender:['✧','✦','✧','✦'],cream:['❦','✿','❦','✿'],night:['✦','☾','✧','✦']};
+const bg={blue:'#eef6ff',pink:'#fff3f7',lavender:'#f6f1ff',cream:'#fff9ed',night:'#07101e'};
+function pick(d){design=d;document.querySelectorAll('.design').forEach(x=>x.classList.toggle('active',x.dataset.d===d));document.body.style.background=bg[d]}
+function previewLetter(){let s=sender.value.trim(),r=recipient.value.trim(),m=message.value.trim();if(!s||!r||!m){alert('Please fill in all the fields.');return}pr.textContent=r;ps.textContent=s;pm.textContent=m;letter.className='letter '+design;[d1,d2,d3,d4].forEach((x,i)=>x.textContent=deco[design][i]);preview.style.display='block';link.style.display='none'}
+function enc(o){let b=new TextEncoder().encode(JSON.stringify(o)),s='';b.forEach(x=>s+=String.fromCharCode(x));return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+function dec(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';let b=atob(s),a=new Uint8Array(b.length);for(let i=0;i<b.length;i++)a[i]=b.charCodeAt(i);return JSON.parse(new TextDecoder().decode(a))}
+function makeLink(){let o={sender:sender.value.trim(),recipient:recipient.value.trim(),message:message.value.trim(),design};url.value=location.origin+location.pathname+'?letter='+enc(o);link.style.display='block'}
+function copyLink(){navigator.clipboard?navigator.clipboard.writeText(url.value).then(()=>alert('Link copied!')):(url.select(),document.execCommand('copy'),alert('Link copied!'))}
+function shareLink(){if(navigator.share)navigator.share({title:'A Little Letter',text:'I made something for you.',url:url.value});else copyLink()}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;')}
+function show(o){document.body.classList.add('shared');document.body.style.background=bg[o.design]||bg.blue;let d=deco[o.design]||deco.blue;app.innerHTML='<div class="preview" style="display:block"><h1 style="margin-bottom:6px">A Little Letter</h1><div class="sub">Someone made this just for you.</div><div class="letter '+(o.design||'blue')+'"><span class="decor d1">'+d[0]+'</span><span class="decor d2">'+d[1]+'</span><span class="decor d3">'+d[2]+'</span><span class="decor d4">'+d[3]+'</span><div class="to">Dear '+esc(o.recipient)+',</div><div class="message">'+esc(o.message)+'</div><div class="from">— '+esc(o.sender)+'</div></div><button class="action" onclick="location.href=location.pathname">Create Your Own Letter</button></div>'}
+window.onload=()=>{let q=new URLSearchParams(location.search).get('letter');if(q){try{show(dec(q))}catch(e){}}}
+</script></body></html>
